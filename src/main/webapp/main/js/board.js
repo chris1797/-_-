@@ -15,7 +15,7 @@ function save() {
 	var data = new FormData(form);
 
 	$.ajax({
-		url : '/board/'+categoryMac+'/save',
+		url : '/board/'+categoryMac+'/new',
 		enctype: 'multipart/form-data',
 		processData: false,
 		contentType: false,
@@ -27,7 +27,7 @@ function save() {
 			
 			if(res.savednum!=0){
 				alert('저장성공');	
-				location.href='/board/'+categoryMac+'/detail/'+res.savednum;
+				location.href='/board/'+categoryMac+'/'+res.savednum;
 			};
 		},
 		error : function(xhr, status, err) {
@@ -44,17 +44,17 @@ function edit() {
 	var data = new FormData(form);
 	var numMac=document.getElementById("numMac").value;
 $.ajax({
-	url:'/board/'+categoryMac+'/edit',
+	url:'/board/'+categoryMac,
 	enctype: 'multipart/form-data',
 	processData: false,
 	contentType: false,
-	method:'post',
+	method:'put',
 	cache:false,
 	data:data,
 	dataType:'json',
 	success:function(res){ //res는 object
 			// alert(res.updated ? '수정 성공' : '수정실패'); //res object 안에있는 num
-			location.href='/board/'+categoryMac+'/detail/'+numMac;
+			location.href='/board/'+categoryMac+'/'+numMac;
 	},
 	error:function(xhr,status,err){
 		alert("Error : " + err);
@@ -68,14 +68,14 @@ return false;
 function remove(){
 	if(!confirm('해당 게시물 삭제하시겠어요?')) return;
 $.ajax({
-	url : '/board/'+categoryMac+'/delete/'+numMac,
-	method:'get',
+	url : '/board/'+categoryMac+'/'+numMac,
+	method:'delete',
 	cache:false,
 	dataType:'json',
 	success:function(res){ //res는 object
 	
 			alert(res.deleted && res.commetdeleted ? '삭제실패' : '삭제성공');
-			location.href = '/board/'+categoryMac+'/list';
+			location.href = '/board/'+categoryMac+'/listPage';
 	},
 	error:function(xhr,status,err){
 		alert(err);
@@ -100,7 +100,7 @@ return false;
 				dataType:'json',
 				success:function(res){ //res는 object
 						/* alert(res.commented ? '댓글작성성공' : '댓글작성실패'); */
-						location.href='/board/'+categoryMac+'/detail/'+numMac;
+						location.href='/board/'+categoryMac+'/'+numMac;
 				},
 				error:function(xhr,status,err){
 					alert(err);
@@ -115,13 +115,13 @@ return false;
 		function commentdelete(num){
 		if(confirm("해당 댓글을 삭제하시겠습니까?")){
 			$.ajax({
-				url:'/board/comment/delete/'+num,
-				method:'get',
+				url:'/board/comment/'+num,
+				method:'delete',
 				cache:false,
 				dataType:'json',
 				success:function(res){ //res는 object
 						alert(res.deleted ? '댓글이 삭제되었습니다.' : '댓글 삭제가 취소되었습니다.');
-						location.href='/board/'+categoryMac+'/detail/'+numMac;
+						location.href='/board/'+categoryMac+'/'+numMac;
 				},
 				error:function(xhr,status,err){
 					alert(err);
@@ -135,13 +135,13 @@ return false;
 // 단일 파일 delete
 function filedelete(filenum){
 	$.ajax({
-		url : '/board/file/delete/'+filenum,
-		method:'get',
+		url : '/board/file/'+filenum,
+		method:'delete',
 		cache:false,
 		dataType:'json',
 		success:function(res){ //res는 object
 				alert(res.filedeleted ? '파일삭제성공' : '파일삭제실패');
-				location.href='/board/'+categoryMac+'/update/'+numMac;
+				location.href='/board/'+categoryMac+'/'+numMac+'/'+'editPage';
 		},
 		error:function(xhr,status,err){
 			alert(err);
@@ -162,7 +162,7 @@ function filedownload(filenum){
 				alert("로그인 후 다운로드 가능합니다.");
 				return;
 			} else {
-				location.href='/board/file/download/'+filenum;
+				location.href='/board/file/'+filenum;
 			}
 		},
 		error:function(xhr,status,err){
