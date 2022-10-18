@@ -28,7 +28,7 @@ public class BoardController {
 
 	private final BoardService svc;
 
-//	커뮤니티메인화면
+//	게시판 메인화면
 	@GetMapping("/main")
 	public String main() {
 		return "thymeleaf/mac/board/board_main";
