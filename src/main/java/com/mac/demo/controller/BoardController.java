@@ -34,7 +34,7 @@ public class BoardController {
 		return "thymeleaf/mac/board/board_main";
 	}
 	
-//======================================== 자유게시판 ========================================
+//======================================== 게시판 ========================================
 //	신규 게시글 작성페이지로 이동
 	@GetMapping("/{categoryMac}/writingPage")
 	public String insertPage(Model model,
@@ -239,7 +239,8 @@ public class BoardController {
 	@DeleteMapping("/file/{numMac}")
 	@ResponseBody
 	public Map<String, Object> filDeletion(@PathVariable("numMac") int numMac,
-										  Model model, HttpSession session) {
+										   Model model,
+										   HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		System.out.println("삭제할 파일 No. : " + numMac);
 		map.put("filedeleted", svc.filedelete(numMac));
@@ -249,7 +250,7 @@ public class BoardController {
 	@GetMapping("/file/{filenum}")
 	@ResponseBody
 	public ResponseEntity<Resource> fileDownload(HttpServletRequest request,
-											 @PathVariable(name="filenum", required = false) int FileNum) throws Exception {
+												 @PathVariable(name="filenum", required = false) int FileNum) throws Exception {
 		return svc.download(request, FileNum);
 	}
 }
