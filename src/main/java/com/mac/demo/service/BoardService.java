@@ -16,6 +16,8 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.apache.catalina.authenticator.SavedRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -41,21 +43,25 @@ import com.mac.demo.model.User;
 @Service
 public class BoardService {
 
+	@Autowired
 	private BoardMapper boardDao;
 	private UserMapper userDao;
 	private AttachMapper attachDao;
 	ResourceLoader resourceLoader;
 	
-	
-	public BoardService(BoardMapper boardDao, UserMapper userDao, AttachMapper attachDao,
-						ResourceLoader resourceLoader) {
+
+	public BoardService(BoardMapper boardDao) {
 		this.boardDao = boardDao;
-		this.userDao = userDao;
-		this.attachDao = attachDao;
-		this.resourceLoader = resourceLoader;
 	}
-	
-	
+
+//	public BoardService(BoardMapper boardDao, UserMapper userDao, AttachMapper attachDao,
+//						ResourceLoader resourceLoader) {
+//		this.boardDao = boardDao;
+//		this.userDao = userDao;
+//		this.attachDao = attachDao;
+//		this.resourceLoader = resourceLoader;
+//	}
+
 //	------------------List-------------------
 	public List<Board> getBoardList(String categoryMac){
 		return boardDao.getBoardList(categoryMac);
