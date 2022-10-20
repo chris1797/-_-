@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Controller;
@@ -20,13 +21,14 @@ import com.mac.demo.service.LoginService;
 
 
 @RequestMapping("/login")
+@RequiredArgsConstructor
 @Controller
 public class LoginController {
 	
 	@Autowired
 	private LoginService svc;
 	
-//	로그인폼
+//	로그인 페이지
 	@GetMapping("/loginForm")
 	public String login() {
 		

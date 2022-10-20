@@ -3,7 +3,9 @@ package com.ezen.demo;
 import com.mac.demo.mappers.BoardMapper;
 import com.mac.demo.model.Board;
 import com.mac.demo.service.BoardService;
+import com.mac.demo.serviceImpl.BoardServiceImpl;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
@@ -16,14 +18,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class BoardServiceTest {
 
     @Autowired
-    BoardMapper boardDao;
+    BoardServiceImpl svc;
 
-    BoardService svc;
-
-    @BeforeEach
-    void init() {
-        svc = new BoardService(boardDao);
-    }
 
     @DisplayName("로그인 성공")
     @Test
