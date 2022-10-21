@@ -14,10 +14,9 @@ import com.mac.demo.model.User;
 @Mapper
 public interface BoardMapper {
 
-//	게시글CRUD
+//	게시글 저장
 	int save(Board board);
-//	int saveToAds(Board board);
-	
+
 //	게시글 수정
 	int update(Board board);
 	int Noticeedit(Board board);

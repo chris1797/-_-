@@ -1,15 +1,11 @@
 package com.mac.demo.serviceImpl;
 
-import java.awt.print.Pageable;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.sql.Date;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,15 +31,21 @@ import com.mac.demo.model.Board;
 import com.mac.demo.model.Comment;
 import com.mac.demo.model.User;
 
+@Transactional
 @Service
-@RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
 
 	private final BoardMapper boardDao;
 	private final UserMapper userDao;
 	private final AttachMapper attachDao;
 	ResourceLoader resourceLoader;
-	
+
+	@Autowired
+	public BoardServiceImpl (BoardMapper boardDao, UserMapper userDao, AttachMapper attachDao) {
+		this.boardDao = boardDao;
+		this.userDao = userDao;
+		this.attachDao = attachDao;
+	}
 
 //	------------------List-------------------
 	public List<Board> getBoardList(String categoryMac){
@@ -76,7 +77,7 @@ public class BoardServiceImpl implements BoardService {
 	public boolean delete(int num) {
 		return 0 > boardDao.delete(num);
 	}
-	public boolean Noticedelete(int num) {
+	public boolean noticeDelete(int num) {
 		return 0 > boardDao.Noticedelete(num);
 	}
 	
@@ -84,21 +85,21 @@ public class BoardServiceImpl implements BoardService {
 	public boolean update(Board board) {
 		return 0 < boardDao.update(board);
 	}
-	public boolean Noticeedit(Board board) {
+	public boolean noticeUpdate(Board board) {
 		return 0 < boardDao.Noticeedit(board);
 		
 //  -----------------COMMENT-----------------
 	}
 	
-	public List<Comment> getCommentList(int num){
+	public List<Comment> getCommentList(int num) {
 		return boardDao.getCommentList(num);		
 	}
 	
-	public boolean commentsave(Comment comment) {
+	public boolean commentSave(Comment comment) {
 		return 0 < boardDao.commentsave(comment);	
 	}
 	
-	public boolean commentdelete(int numMac) {
+	public boolean commentDelete(int numMac) {
 		return 0 < boardDao.commentdelete(numMac);
 	}
 	
@@ -111,7 +112,7 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.getFreeListByNickName(nickNameMac);
 	}
 	
-	public List<Board> getAdsListByKeyword(String titleMac){
+	public List<Board> getAdsListByKeyword(String titleMac) {
 		return boardDao.getAdsListByKeyword(titleMac);
 	}
 
@@ -120,7 +121,6 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	public List<Board> getNoticeListByKeyword(String titleMac) {
-		
 		return boardDao.getNoticeListByKeyword(titleMac);
 	}
 
@@ -231,25 +231,8 @@ public class BoardServiceImpl implements BoardService {
 		return removed > 0;
 	}
 
-	
-	public boolean insertMultiAttach(Attach vo) {
-		int pcodeMac = vo.getNumMac();  // 자동 증가된 업로드 번호를 받음
-		
-		List<Attach> attList = vo.getAttListMac();
 
-		int totalSuccess = 0;
-		for(int i=0;i<attList.size();i++)
-		{
-			Map<String,Object> fmap = new HashMap<>();
-			fmap.put("pcodeMac", Integer.valueOf(pcodeMac));
-			fmap.put("fileNameMac", attList.get(i).getFileNameMac());
-			fmap.put("filepathMac", vo.getFilepathMac());
-//			totalSuccess += attchDao.insertAttach(fmap);   // 첨부파일 정보 저장
-		}
-		return totalSuccess==attList.size();
-	}
-	
-	public ResponseEntity<Resource> download (HttpServletRequest request, int FileNum) throws Exception{
+	public ResponseEntity<Resource> download (HttpServletRequest request, int FileNum) throws UnsupportedEncodingException {
 	      String filename = getFname(FileNum);
 	      String originFilename = URLDecoder.decode(filename, "UTF-8");
 	      Resource resource = resourceLoader.getResource("WEB-INF/files/" + originFilename);
@@ -268,13 +251,14 @@ public class BoardServiceImpl implements BoardService {
 	      
 	      ResponseEntity<Resource> file =  ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
 	            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + new String(resource.getFilename().getBytes("UTF-8"), "ISO-8859-1") + "\"")
-	                  
-	            // .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-	            // HttpHeaders.CONTENT_DISPOSITION는 http header를 조작하는 것, 화면에 띄우지 않고 첨부화면으로
-	            // 넘어가게끔한다ㄴ
-	            // filename=\"" + resource.getFilename() + "\"" 는 http프로토콜의 문자열을 고대로 쓴 것
 	            .body(resource);
-	      
+
+		  		/*
+		  		 * .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+		  		 * HttpHeaders.CONTENT_DISPOSITION는 http header를 조작하는 것, 화면에 띄우지 않고 첨부화면으로 넘어가도록 한다.
+		  		 * filename=\"" + resource.getFilename() + "\"" 는 http프로토콜의 문자열을 고대로 쓴 것
+		  		 */
+
 	      return file;
 	   }
 	

@@ -3,13 +3,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mac.demo.mappers.BoardMapper">
-<!--  
-	<insert id="save" parameterType="com.mac.demo.model.Board">
-		INSERT INTO free_board(NUMMAC,NICKNAMEMAC,TITLEMAC,CONTENTSMAC,WDATEMAC,PCODEMAC)
-		VALUES(BOARD_NUM.NEXTVAL,#{nickNameMac},#{titleMac},#{contentsMac},SYSDATE,#{pcodeMac})
-	</insert>
--->
-
 
 	<select id="getBoardList" resultType="com.mac.demo.model.Board" parameterType="String">
 		SELECT NUMMAC, IDMAC, NICKNAMEMAC, TITLEMAC, CONTENTSMAC, WDATEMAC,
@@ -34,7 +27,7 @@
 	        useGeneratedKeys="true" 
 	       	keyColumn="NUMMAC" keyProperty="numMac">
 	
-	   INSERT INTO BOARD(NUMMAC,NICKNAMEMAC,TITLEMAC,CONTENTSMAC,WDATEMAC,IDMAC, CATEGORYMAC)
+	   INSERT INTO BOARD(NUMMAC,NICKNAMEMAC,TITLEMAC,CONTENTSMAC,WDATEMAC,IDMAC,CATEGORYMAC)
 			VALUES(BOARD_NUM.NEXTVAL,#{nickNameMac},#{titleMac},#{contentsMac},SYSDATE,#{idMac},#{categoryMac})
 	
 	</insert>

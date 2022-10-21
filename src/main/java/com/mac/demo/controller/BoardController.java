@@ -218,7 +218,7 @@ public class BoardController {
 		if((String)session.getAttribute("idMac") == null){ //세션을 가져옴
 			map.put("msg", "로그인 후 사용 가능합니다.");
 		} else {
-			map.put("commented", svc.commentsave(comment));
+			map.put("commented", svc.commentSave(comment));
 		}
 		
 		return map;
@@ -231,7 +231,7 @@ public class BoardController {
 											 Model model,
 											 HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("deleted", svc.commentdelete(numMac));
+		map.put("deleted", svc.commentDelete(numMac));
 		return map;
 	}
 //======================================== 파일 ========================================
