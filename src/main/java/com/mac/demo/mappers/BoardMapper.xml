@@ -9,7 +9,7 @@
 			(SELECT COUNT(*)
 			FROM comment_board c
 			WHERE c.pcodemac = b.nummac) COUNTMAC
-		FROM board b
+		FROM BOARD b
 		WHERE CATEGORYMAC = #{categoryMac}
 		ORDER BY NUMMAC
 		DESC
@@ -125,7 +125,7 @@
 	<!-- 상세보기 -->
 	
 	<select id="getDetail" resultType="com.mac.demo.model.Board">
-		SELECT * FROM board WHERE NUMMAC=#{numMac} and categoryMac=#{categoryMac}
+		SELECT * FROM BOARD WHERE NUMMAC=#{numMac} and categoryMac=#{categoryMac}
 	</select>
 	
 	<select id="getNoticeDetail" resultType="com.mac.demo.model.Board">

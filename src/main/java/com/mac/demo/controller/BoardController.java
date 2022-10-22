@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,8 @@ import com.mac.demo.service.BoardService;
 @Controller
 public class BoardController {
 
-	private final BoardService svc;
+	@Autowired
+	public BoardService svc;
 
 //	게시판 메인화면
 	@GetMapping("/main")
@@ -83,7 +85,7 @@ public class BoardController {
 	}
 	
 //	게시글 목록페이지로 이동
-	@GetMapping("/{categoryMac}/listPage")
+	@GetMapping("/{categoryMac}/list")
 	public String getListByPage(@RequestParam(name="page", required = false,defaultValue = "1") int page,
 								@PathVariable("categoryMac") String categoryMac,
 								Model model,

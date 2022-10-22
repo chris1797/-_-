@@ -31,21 +31,22 @@ import com.mac.demo.model.Board;
 import com.mac.demo.model.Comment;
 import com.mac.demo.model.User;
 
-@Transactional
 @Service
-public class BoardServiceImpl implements BoardService {
+@Transactional
+@RequiredArgsConstructor
+public class BoardServiceImpl implements BoardService{
 
 	private final BoardMapper boardDao;
 	private final UserMapper userDao;
 	private final AttachMapper attachDao;
 	ResourceLoader resourceLoader;
 
-	@Autowired
-	public BoardServiceImpl (BoardMapper boardDao, UserMapper userDao, AttachMapper attachDao) {
-		this.boardDao = boardDao;
-		this.userDao = userDao;
-		this.attachDao = attachDao;
-	}
+
+//	public BoardServiceImpl (BoardMapper boardDao, UserMapper userDao, AttachMapper attachDao) {
+//		this.boardDao = boardDao;
+//		this.userDao = userDao;
+//		this.attachDao = attachDao;
+//	}
 
 //	------------------List-------------------
 	public List<Board> getBoardList(String categoryMac){
@@ -63,6 +64,19 @@ public class BoardServiceImpl implements BoardService {
 //	------------------ SAVE -------------------    
 	public boolean save(Board board){
 		return 0 < boardDao.save(board);
+	}
+
+//	------------------------PAGE------------------------
+	public PageInfo<Board> getPageInfo(String categoryMac) {
+		PageInfo<Board> pageInfo = null;
+
+		if (categoryMac.contentEquals("notice")) {
+			pageInfo = new PageInfo<>(getNoticeList());
+		} else {
+			pageInfo = new PageInfo<>(getBoardList(categoryMac));
+		}
+
+		return pageInfo;
 	}
 	
 //	------------------상세보기-------------------    
@@ -261,19 +275,5 @@ public class BoardServiceImpl implements BoardService {
 
 	      return file;
 	   }
-	
-	
-//	------------------------PAGE------------------------
-	public PageInfo<Board> getPageInfo(String categoryMac) {
-		PageInfo<Board> pageInfo = null;
-		
-		if (categoryMac.contentEquals("notice")) {
-			pageInfo = new PageInfo<>(getNoticeList());
-		} else {
-			pageInfo = new PageInfo<>(getBoardList(categoryMac));
-		}
-		
-		return pageInfo;
-	}
 	
 }
