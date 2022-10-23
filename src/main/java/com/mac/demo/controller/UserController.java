@@ -9,12 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -26,11 +21,11 @@ import com.mac.demo.service.UserService;
 @RequestMapping("/user")
 public class UserController {
 	
-	//유저 맵퍼
+//	유저 맵퍼
 	@Autowired
 	private UserService svc;
 
-//	계정추가폼
+//	회원가입 페이지로 이동
 	@GetMapping("/addForm")
 	public String addForm(Model model) {
 		User user = new User();
@@ -38,7 +33,7 @@ public class UserController {
 		return "thymeleaf/mac/User/addForm";
 	}
 	
-//	아이디 체크후 추가폼
+//	아이디 중복체크 후 회원가입 다음 단계로 이동
 	@PostMapping("/addForm/{idMac}")
 	public String addForm2(@PathVariable("idMac")String idMac, Model model) {
 		User user = new User();
@@ -47,7 +42,7 @@ public class UserController {
 		return "thymeleaf/mac/User/addForm";
 	}
 	
-//	아이디 체크, 이메일 인증후 추가폼
+//	아이디, email 인증 후 회원가입 다음 단계로 이동
 	@PostMapping("/addForm/{idMac}/{emailMac}")
 	public String addForm3(@PathVariable("idMac")String idMac, 
 			@PathVariable("emailMac")String emailMac, 
@@ -80,7 +75,7 @@ public class UserController {
 		return "thymeleaf/mac/User/userlist";
 	}
 	
-//	마이페이지
+//	마이페이지로 이동
 	@GetMapping("/detail/{idMac}")
 	public String mypage(@PathVariable("idMac")String idMac, Model model, HttpSession session,@RequestParam(name="page", required = false,defaultValue = "1") int page) {
 		User user = svc.getOne(idMac);
@@ -108,8 +103,8 @@ public class UserController {
 
 	}
 	
-//	계정 삭제
-	@PostMapping("/deleted")
+//	회원 탈퇴
+	@DeleteMapping("/removal")
 	@ResponseBody
 	public Map<String,Object> deleted(User user, HttpSession session) {
 		Map<String, Object> map = new HashMap<>();
@@ -132,14 +127,13 @@ public class UserController {
 //  유저 업데이트폼
 	@GetMapping("/updateForm")
 	public String update(User user, Model model) {
-//		System.out.println("여기누");
-		User user2 = svc.getOne(user.getIdMac());
-		model.addAttribute("user", user2);
+		User _user = svc.getOne(user.getIdMac());
+		model.addAttribute("user", _user);
 		return "thymeleaf/mac/User/updateForm";
 	}
 	
 //  유저 정보 수정
-	@PostMapping("/updated")
+	@PutMapping("/modify")
 	@ResponseBody
 	public Map<String, Object> edit(User user, HttpSession session) {
 		Map<String, Object> map = new HashMap<>();
@@ -160,7 +154,7 @@ public class UserController {
 	}
 	
 //	email 인증 보내기
-	@PostMapping("/checkmail")
+	@PostMapping("/email_authentication")
 	@ResponseBody
 	public Map<String, Object> emailcheck(@RequestParam("emailMac")String emailMac) {
 		Map<String, Object> map = new HashMap<>();
@@ -185,7 +179,7 @@ public class UserController {
 	}
 	
 //	닉네임
-	@PostMapping("/nickCheck")
+	@PostMapping("/nicknameCheck")
 	@ResponseBody
 	public Map<String, Object> nickCheck(@RequestParam("nick")String nick) {
 		Map<String, Object> map = new HashMap<>();

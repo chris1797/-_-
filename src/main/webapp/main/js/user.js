@@ -79,7 +79,7 @@
 	    }
 	   
 	    $.ajax({
-			url:'/user/nickCheck',
+			url:'/user/nicknameCheck',
 			method:'post',
 			cache:false,
 			data: {nick:document.getElementById('nickNameMac').value},
@@ -182,7 +182,7 @@
 	function sendMsg()
 	{
 		$.ajax({
-			url:'/user/checkmail',
+			url:'/user/email_authentication',
 			method:'post',
 			cache:false,
 			data:$('#emailcheck').serialize(),
@@ -266,7 +266,7 @@
 		}
 		
 		$.ajax({
-			url:'/user/nickCheck',
+			url:'/user/nicknameCheck',
 			method:'post',
 			cache:false,
 			data: {nick:document.getElementById('nickNameMac').value},
@@ -298,8 +298,8 @@
 		
 		
 		$.ajax({
-			url:'/user/deleted',
-			method:'post',
+			url:'/user/removal',
+			method:'delete',
 			cache:false,
 			data:$('#del').serialize(),
 			dataType:'json',
@@ -353,8 +353,8 @@ function updated() {
 	
 	
 	$.ajax({
-		url:'/user/updated',
-		method:'post',
+		url:'/user/modify',
+		method:'put',
 		cache:false,
 		data:$('#updated').serialize(),
 		dataType:'json',
