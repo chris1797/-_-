@@ -104,7 +104,7 @@
 		DESC
 	</select>
 	
-	<select id="getCommentList" resultType="com.mac.demo.model.Comment">
+	<select id="getCommentList" resultType="com.mac.demo.model.Comment" parameterType="Integer">
 		SELECT * 
 		FROM comment_board 
 		WHERE PCODEMAC=#{pcodeMac}

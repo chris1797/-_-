@@ -125,7 +125,7 @@ public class BoardController {
 		/** 게시판에서 글넘버, 게시판 카테고리를 전달받아 해당 글 조회 */
 		model.addAttribute("board", svc.getDetail(num, categoryMac));
 		
-		/** 댓글 페이지네이션 */
+		/** 댓글리스트 페이지네이션 */
 		PageHelper.startPage(page, 7);
 		model.addAttribute("page", page);
 		model.addAttribute("pageInfo", new PageInfo<>(svc.getCommentList(num)));

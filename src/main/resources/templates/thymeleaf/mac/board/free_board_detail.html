@@ -53,7 +53,7 @@ var categoryMac='[[${board.categoryMac}]]';
         <nav class="navbar navbar-expand-lg navbar-dark px-5 py-3 py-lg-0">
             <a href="/home" class="navbar-brand p-0">
             
-                <h1 class="m-0"><i class="bi bi-house-door"></i>&nbsp;&nbsp;창업 커뮤니티 및 상권정보</h1>
+                <h1 class="m-0"><i class="bi bi-house-door"></i>&nbsp;&nbsp;서울시 골목상권 분석 서비스</h1>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars"></span>
@@ -114,7 +114,7 @@ var categoryMac='[[${board.categoryMac}]]';
 					<div class="board-header">
 						<span th:text="'No. '+${board.numMac}"></span>
 						<h3 th:text="${board.titleMac}"></h3>
-						<span th:text="${board.nickNameMac}"></span> |
+						<span th:text="${board?.nickNameMac}"></span> |
 						<span th:text="${board.wdateMac}"></span>
 				</div>
 				<div class="board-body">
@@ -140,32 +140,28 @@ var categoryMac='[[${board.categoryMac}]]';
 						<th><h5 class="board-comment-header">댓글</h5></th>
 							<table class="table project-table table-centered table-nowrap">
 									<tr th:each="comment : ${pageInfo.list}">
-										<td th:text="${comment.nickNameMac}"></td>
+										<td th:text="${comment?.nickNameMac}"></td>
 										<td th:text="${comment.commentMac}"></td>
 											
 										<td th:text="${comment.wdateMac}"></td>
 										<td th:text="${board.wdateMac}">
-									    <td th:if="${idMac}!=${comment.idMac}">
+									    <td th:if="${idMac}!=${comment?.idMac}">
 										</td>
-									    <td th:if="${idMac}==${comment.idMac}">
+									    <td th:if="${idMac}==${comment?.idMac}">
 											<button th:onclick="javascript:commentdelete([[${comment.numMac}]]);">삭제</button>
 										</td>
 									</tr>
-									
-									
-								
 							</table>
 								<form id="comment_form" onsubmit="return comment();">
 						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-							<input type="hidden" th:name="nickNameMac" th:value="${comment.nickNameMac}">
-							<input type="hidden" th:name="pcodeMac" th:value="${comment.pcodeMac}">
-							<input type="hidden" th:name="idMac" th:value="${comment.idMac}">
+							<input type="hidden" th:name="nickNameMac" th:value="${comment?.nickNameMac}">
+							<input type="hidden" th:name="pcodeMac" th:value="${comment?.pcodeMac}">
+							<input type="hidden" th:name="idMac" th:value="${comment?.idMac}">
 							<tr>
 								<label for="commentMac">댓글작성</label> &nbsp;&nbsp;
 									<input type="text" th:name="commentMac">
 								<button type="submit" class="btn btn-primary py-2 px-4 ms-3">작성</button>
 								<a href="/board/free/list" class="btn btn-primary py-2 px-4 ms-3">글목록</a> &nbsp;&nbsp;
-								
 							</tr>
 							<tr>
 							
@@ -174,11 +170,11 @@ var categoryMac='[[${board.categoryMac}]]';
 							   <div class="pt-3" align="center" >
 							<ul class="pagination justify-content-center mb-0">
 								<span th:if="${page!=1}"> <a class="page-link"
-									th:href="@{'/board/free/detail/'+ ${board.numMac}+'?page='+${page-1}}">Previous</a>
+									th:href="@{'/board/free/'+ ${board.numMac}+'?page='+${page-1}}">Previous</a>
 								</span>
 								<span th:unless="${page!=1}">
 									<li class="page-item disabled"><a class="page-link"
-										th:href="@{'/board/free/detail/'+ ${board.numMac}+'?page='+${page-1}}">Previous</a></li>
+										th:href="@{'/board/free/'+ ${board.numMac}+'?page='+${page-1}}">Previous</a></li>
 								</span>
 								<span th:each="i :${pageInfo.navigatepageNums}"> <span
 									th:if="${i==pageInfo.pageNum}">
@@ -200,7 +196,7 @@ var categoryMac='[[${board.categoryMac}]]';
 							</ul>
 						</div>
 						
-						<div th:if="${idMac}==${board.idMac}" id="board_del">
+						<div th:if="${idMac}==${board?.idMac}" id="board_del">
 									<a th:href="@{'/board/free/' + ${board.numMac} + '/editPage'}" class="btn btn-primary py-2 px-4 ms-3">수정하기</a> &nbsp;&nbsp;
 									<a href="javascript:remove();" class="btn btn-primary py-2 px-4 ms-3">삭제</a>
 								</div>
