@@ -86,7 +86,7 @@
 		DESC
 	</select>
 	
-		<select id="getNoticeListByKeyword" resultType="com.mac.demo.model.Board" parameterType="String">
+	<select id="getNoticeListByKeyword" resultType="com.mac.demo.model.Board" parameterType="String">
 		SELECT NUMMAC, IDMAC, NICKNAMEMAC, TITLEMAC, CONTENTSMAC, WDATEMAC
 		FROM notice_board 
 		WHERE TITLEMAC 

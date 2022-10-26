@@ -30,14 +30,14 @@ public class BoardController {
 	@Autowired
 	public BoardService svc;
 
-//	게시판 메인화면
+	/** 게시판 메인화면 */
 	@GetMapping("/main")
 	public String main() {
 		return "thymeleaf/mac/board/board_main";
 	}
 	
 //======================================== 게시판 ========================================
-//	신규 게시글 작성페이지로 이동
+	/** 신규 게시글 작성페이지로 이동 */
 	@GetMapping("/{categoryMac}/writingPage")
 	public String insertPage(Model model,
 							  HttpSession session,
@@ -45,7 +45,7 @@ public class BoardController {
 		
 		System.out.println("현재 접속한 ID : " + (String)session.getAttribute("idMac"));
 		
-		/*
+		/**
 		 * 글쓰기 기능은 회원만 사용할 수 있도록 구현
 		 * 글쓰기 페이지로 이동하기 전 로그인 여부 체크
 		 */
@@ -68,7 +68,7 @@ public class BoardController {
 	}
 	
 
-//	신규 게시글 저장
+	/** 신규 게시글 저장 */
 	@PostMapping("/{categoryMac}/new")
 	@ResponseBody
 	public String save(Board board,
@@ -84,7 +84,7 @@ public class BoardController {
 		return String.format("{\"savednum\":\"%d\"}", board.getNumMac());
 	}
 	
-//	게시글 목록페이지로 이동
+	/** 게시글 목록페이지로 이동 */
 	@GetMapping("/{categoryMac}/list")
 	public String getListByPage(@RequestParam(name="page", required = false,defaultValue = "1") int page,
 								@PathVariable("categoryMac") String categoryMac,
@@ -99,7 +99,7 @@ public class BoardController {
 	}
 	
 	
-//  게시글 보기
+	/**  게시글 보기 */
 	@GetMapping("/{categoryMac}/{num}")
 	public String getDetail(@PathVariable("num") int num,
 							@PathVariable("categoryMac") String categoryMac,
@@ -107,7 +107,7 @@ public class BoardController {
 							Model model,
 							HttpSession session) {
 
-		/*
+		/**
 		 * 댓글 작성은 로그인 한 유저만 가능하도록 구현
 		 * Comment 객체 생성 후 현재 세션에 접속한 유저정보 담아 전달
 		 */
@@ -122,23 +122,25 @@ public class BoardController {
 			model.addAttribute("msg", "로그인 후 작성 가능합니다.");
 		}
 		
-//		게시판에서 글넘버, 게시판 카테고리를 전달받아 해당 글 조회
+		/** 게시판에서 글넘버, 게시판 카테고리를 전달받아 해당 글 조회 */
 		model.addAttribute("board", svc.getDetail(num, categoryMac));
 		
-//		댓글 페이지네이션
+		/** 댓글 페이지네이션 */
 		PageHelper.startPage(page, 7);
 		model.addAttribute("page", page);
 		model.addAttribute("pageInfo", new PageInfo<>(svc.getCommentList(num)));
 
-//		해당 게시글에 첨부된 파일리스트 조회
+		/** 해당 게시글에 첨부된 파일리스트 조회 */
 		model.addAttribute("filelist", svc.getFileList(num));
 		model.addAttribute("fileindex", svc.getFileList(num).size());
 
 		return String.format("thymeleaf/mac/board/%s_board_detail", categoryMac);
 	}
-	
-//  게시글 삭제
-//	PostMapping 방식으로 form 밖에 있는 데이터를 넘기지 못해 get으로 우선 구현
+
+	/**
+	 * 게시글 삭제
+	 * PostMapping 방식으로 form 밖에 있는 데이터를 넘기지 못해 get으로 우선 구현
+	 */
 	@DeleteMapping("/{categoryMac}/{num}")
 	@ResponseBody
 	public String delete(@PathVariable("num") int num,
@@ -146,7 +148,7 @@ public class BoardController {
 		return String.format("{\"deleted\":\"%b\"}", svc.delete(num));
 	}
 	
-//  게시글 수정페이지로 이동
+  	/** 게시글 수정페이지로 이동 */
 	@GetMapping("/{categoryMac}/{num}/editPage")
 	public String update(@PathVariable("num") int num, 
 						 HttpSession session,
@@ -160,7 +162,7 @@ public class BoardController {
 		return String.format("thymeleaf/mac/board/%s_board_edit", categoryMac);
 	}
 	
-//  게시글 수정
+  	/** 게시글 수정 */
 	@PutMapping("/{categoryMac}")
 	@ResponseBody
 	public String modify(Board newBoard,
@@ -172,7 +174,7 @@ public class BoardController {
 	}
 	
 	
-//	게시글 타이틀 검색
+	/** 게시글 타이틀 검색 */
 	@GetMapping("/{categoryMac}/search")
 	public String getListByTitle(@RequestParam(name="page", required = false,defaultValue = "1") int page,
 								 @RequestParam(name="category", required = false) String category,

@@ -123,7 +123,7 @@
                            <tr th:each="board : ${pageInfo.list}">
                               <td th:text="${board.numMac}"></td>
                               <td><a th:text="${board.titleMac}"
-                                 th:href="@{'/board/free/detail/'+ ${board.numMac}}"></a> 
+                                 th:href="@{'/board/free/'+ ${board.numMac}}"></a> 
                                  <span th:text="'   ['+${board.countMac}+']'"></span>
                               </td>
                               <td th:text="${board.nickNameMac}"></td>

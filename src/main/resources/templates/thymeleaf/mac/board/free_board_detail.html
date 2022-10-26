@@ -186,22 +186,22 @@ var categoryMac='[[${board.categoryMac}]]';
 											th:text="${i}"></span></li>
 								</span> <span th:if="${i!=pageInfo.pageNum}"> <a
 										class="page-link" th:text='${i}'
-										th:href="'/board/free/detail/'+ ${board.numMac}+'?page='+(${i})"></a>
+										th:href="'/board/free/'+ ${board.numMac}+'?page='+(${i})"></a>
 								</span>
 								</span>
 								<span th:if="${page}!=${pageInfo.getNavigateLastPage}"> <a
 									class="page-link"
-									th:href="@{'/board/free/detail/'+ ${board.numMac}+'?page='+${page+1}}">Next</a>
+									th:href="@{'/board/free/'+ ${board.numMac}+'?page='+${page+1}}">Next</a>
 								</span>
 								<span th:unless="${page}!=${pageInfo.getNavigateLastPage}">
 									<li class="page-item disabled"><a class="page-link"
-										th:href="@{'/board/free/detail/'+ ${board.numMac}+'?page='+${page+1}}">Next</a></li>
+										th:href="@{'/board/free/'+ ${board.numMac}+'?page='+${page+1}}">Next</a></li>
 								</span>
 							</ul>
 						</div>
 						
 						<div th:if="${idMac}==${board.idMac}" id="board_del">
-									<a th:href="@{'/board/free/update/' + ${board.numMac}}" class="btn btn-primary py-2 px-4 ms-3">수정하기</a> &nbsp;&nbsp;
+									<a th:href="@{'/board/free/' + ${board.numMac} + '/editPage'}" class="btn btn-primary py-2 px-4 ms-3">수정하기</a> &nbsp;&nbsp;
 									<a href="javascript:remove();" class="btn btn-primary py-2 px-4 ms-3">삭제</a>
 								</div>
 					</div>
