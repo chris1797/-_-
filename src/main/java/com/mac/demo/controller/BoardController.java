@@ -19,7 +19,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mac.demo.model.Board;
 import com.mac.demo.model.Comment;
-import com.mac.demo.service.BoardService;
+import com.mac.demo.service_interface.BoardService;
 
 
 @RequestMapping("/board")

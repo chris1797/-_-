@@ -10,7 +10,6 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import com.mac.demo.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
