@@ -1,4 +1,4 @@
-package com.mac.demo.serviceImpl;
+package com.mac.demo.service_interface;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.mac.demo.service.BoardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;

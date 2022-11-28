@@ -2,8 +2,6 @@ package com.mac.demo;
 
 import com.mac.demo.mappers.BoardMapper;
 import com.mac.demo.model.Board;
-import com.mac.demo.service.BoardService;
-import com.mac.demo.serviceImpl.BoardServiceImpl;
 import org.junit.Assert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
