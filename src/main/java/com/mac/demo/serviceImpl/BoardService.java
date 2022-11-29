@@ -31,11 +31,11 @@ public interface BoardService {
 
     // 게시글 삭제
     public boolean delete(int num);
-    public boolean noticeDelete(int num);
+//    public boolean noticeDelete(int num);
 
     // 게시글 수정
     public boolean update(Board board);
-    public boolean noticeUpdate(Board board);
+//    public boolean noticeUpdate(Board board);
 
     // 댓글 리스트
     public List<Comment> getCommentList(int num);
@@ -47,12 +47,12 @@ public interface BoardService {
     public boolean commentDelete(int numMac);
 
     // 게시글 검색
-    public List<Board> getFreeListByKeyword(String titleMac);
-    public List<Board> getFreeListByNickName(String nickNameMac);
-    public List<Board> getAdsListByKeyword(String titleMac);
-    public List<Board> getAdsListByNickName(String nickNameMac);
-    public List<Board> getNoticeListByKeyword(String titleMac);
-    public List<Board> getNoticeListByNickName(String nickNameMac);
+    public List<Board> getListByKeyword(String title, String category);
+    public List<Board> getListByNickName(String nickNameMac);
+//    public List<Board> getAdsListByKeyword(String titleMac);
+//    public List<Board> getAdsListByNickName(String nickNameMac);
+//    public List<Board> getNoticeListByKeyword(String titleMac);
+//    public List<Board> getNoticeListByNickName(String nickNameMac);
 
     // 파일데이터 set
     public List<Attach> getFileSet(Board board, MultipartFile[] mfiles, HttpServletRequest request);

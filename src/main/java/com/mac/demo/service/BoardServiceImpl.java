@@ -64,36 +64,31 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public boolean update(Board board) {
-        return false;
-    }
-
-    @Override
-    public boolean noticeUpdate(Board board) {
-        return false;
+        return 0 < boardDao.update(board);
     }
 
     @Override
     public List<Comment> getCommentList(int num) {
-        return null;
+        return boardDao.getCommentList(num);
     }
 
     @Override
     public boolean commentSave(Comment comment) {
-        return false;
+        return 0 < boardDao.commentsave(comment);
     }
 
     @Override
     public boolean commentDelete(int numMac) {
-        return false;
+        return 0 < boardDao.commentdelete(numMac);
     }
 
     @Override
-    public List<Board> getFreeListByKeyword(String titleMac) {
+    public List<Board> getListByKeyword(String titleMac, String category) {
         return null;
     }
 
     @Override
-    public List<Board> getFreeListByNickName(String nickNameMac) {
+    public List<Board> getListByNickName(String nickNameMac, String category) {
         return null;
     }
 

@@ -187,7 +187,7 @@ public class BoardController {
 		PageInfo<Board> pageInfo = null;
 		if(categoryMac.contentEquals("free")) {
 			if(category.equals("contents")) {
-				pageInfo = new PageInfo<>(svc.getFreeListByKeyword(keyword));
+				pageInfo = new PageInfo<>(svc.getListByKeyword(keyword, category));
 			} else {
 				pageInfo = new PageInfo<>(svc.getFreeListByNickName(keyword));
 			}

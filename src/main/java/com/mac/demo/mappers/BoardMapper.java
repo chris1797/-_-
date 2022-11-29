@@ -43,14 +43,14 @@ public interface BoardMapper {
 	List<Board> getNoticeList(); // 공지게시판
 	
 //	닉네임, 글내용+제목 검색
-	List<Board> getFreeListByKeyword(String keyword);
-	List<Board> getFreeListByNickName(String nickNameMac);
+	List<Board> getListByKeyword(String keyword, String category);
+	List<Board> getListByNickName(String nickName, String category);
 	
-	List<Board> getAdsListByKeyword(String keyword);
-	List<Board> getAdsListByNickName(String nickNameMac);
+//	List<Board> getAdsListByKeyword(String keyword);
+//	List<Board> getAdsListByNickName(String nickNameMac);
 	
-	List<Board> getNoticeListByKeyword(String keyword);
-	List<Board> getNoticeListByNickName(String nickNameMac);
+//	List<Board> getNoticeListByKeyword(String keyword);
+//	List<Board> getNoticeListByNickName(String nickNameMac);
 	
 
 	

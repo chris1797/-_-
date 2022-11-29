@@ -116,28 +116,12 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 //	-----------------------SEARCH-----------------------	
-	public List<Board> getFreeListByKeyword(String titleMac){
-		return boardDao.getFreeListByKeyword(titleMac);
+	public List<Board> getListByKeyword(String title, String category){
+		return boardDao.getListByKeyword(title, category);
 	}
 
-	public List<Board> getFreeListByNickName(String nickNameMac) {
-		return boardDao.getFreeListByNickName(nickNameMac);
-	}
-	
-	public List<Board> getAdsListByKeyword(String titleMac) {
-		return boardDao.getAdsListByKeyword(titleMac);
-	}
-
-	public List<Board> getAdsListByNickName(String nickNameMac) {
-		return boardDao.getAdsListByNickName(nickNameMac);
-	}
-	
-	public List<Board> getNoticeListByKeyword(String titleMac) {
-		return boardDao.getNoticeListByKeyword(titleMac);
-	}
-
-	public List<Board> getNoticeListByNickName(String nickNameMac) {
-		return boardDao.getNoticeListByNickName(nickNameMac);
+	public List<Board> getListByNickName(String nickName, String category) {
+		return boardDao.getListByNickName(nickName, category);
 	}
 	
 //	------------------------File------------------------

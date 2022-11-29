@@ -34,28 +34,28 @@
 	
 	
 <!-- 검색 : 닉네임, 제목+내용 -->
-	<select id="getFreeListByKeyword" resultType="com.mac.demo.model.Board" parameterType="String">
+	<select id="getListByKeyword" resultType="com.mac.demo.model.Board" parameterType="String">
 		SELECT NUMMAC, IDMAC, NICKNAMEMAC, TITLEMAC, CONTENTSMAC, WDATEMAC,
 			(SELECT COUNT(*)
 			FROM comment_board c
-			WHERE c.pcodemac = f.nummac) COUNTMAC
-		FROM board f
+			WHERE c.pcodemac = b.nummac) COUNTMAC
+		FROM board b
 		WHERE TITLEMAC 
 			  LIKE '%'||#{keyword}||'%'
 			  OR CONTENTSMAC
 			  LIKE '%'||#{keyword}||'%' 
-			  AND CATEGORYMAC='free'
+			  AND CATEGORYMAC=#{category}
 	</select>
 	
-	<select id="getFreeListByNickName" resultType="com.mac.demo.model.Board" parameterType="String">
+	<select id="getListByNickName" resultType="com.mac.demo.model.Board" parameterType="String">
 		SELECT NUMMAC, IDMAC, NICKNAMEMAC, TITLEMAC, CONTENTSMAC, WDATEMAC,
 			(SELECT COUNT(*)
 			FROM comment_board c
-			WHERE c.pcodemac = f.nummac) COUNTMAC
-		FROM board f
+			WHERE c.pcodemac = b.nummac) COUNTMAC
+		FROM board b
 		WHERE NICKNAMEMAC 
 		LIKE '%'||#{nickNameMac}||'%' 
-		AND CATEGORYMAC='free'
+		AND CATEGORYMAC=#{category}
 		ORDER BY NUMMAC
 		DESC
 	</select>
