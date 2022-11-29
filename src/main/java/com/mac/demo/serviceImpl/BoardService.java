@@ -1,4 +1,4 @@
-package com.mac.demo.service_interface;
+package com.mac.demo.serviceImpl;
 
 import com.github.pagehelper.PageInfo;
 import com.mac.demo.model.Attach;
@@ -13,10 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-public interface BoardServiceImpl_ {
+public interface BoardService {
+
     // 게시판 목록
     public List<Board> getBoardList(String categorymac);
-    public List<Board> getNoticeList();
+//  public List<Board> getNoticeList();
 
     // 유저 ID를 통한 회원정보
     public User getOne(String idMac);
@@ -26,7 +27,7 @@ public interface BoardServiceImpl_ {
 
     // 게시글 상세보기
     public Board getDetail(int numMac, String categoryMac);
-    public Board getNoticeDetail(int num);
+//    public Board getNoticeDetail(int num);
 
     // 게시글 삭제
     public boolean delete(int num);

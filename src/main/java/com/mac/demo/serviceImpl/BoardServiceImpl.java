@@ -1,4 +1,4 @@
-package com.mac.demo.service_interface;
+package com.mac.demo.serviceImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -89,9 +89,9 @@ public class BoardServiceImpl implements BoardService{
 	public boolean delete(int num) {
 		return 0 > boardDao.delete(num);
 	}
-	public boolean noticeDelete(int num) {
-		return 0 > boardDao.Noticedelete(num);
-	}
+//	public boolean noticeDelete(int num) {
+//		return 0 > boardDao.Noticedelete(num);
+//	}
 	
 //	------------------UPDATE-------------------
 	public boolean update(Board board) {

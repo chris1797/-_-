@@ -8,7 +8,7 @@ import com.mac.demo.model.Attach;
 import com.mac.demo.model.Board;
 import com.mac.demo.model.Comment;
 import com.mac.demo.model.User;
-import com.mac.demo.service_interface.BoardServiceImpl_;
+import com.mac.demo.serviceImpl.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -24,7 +24,7 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class BoardService implements BoardServiceImpl_ {
+public class BoardServiceImpl implements BoardService {
 
     private final BoardMapper boardDao;
     private final UserMapper userDao;
@@ -37,38 +37,29 @@ public class BoardService implements BoardServiceImpl_ {
     }
 
     @Override
-    public List<Board> getNoticeList() {
-        return null;
+    public PageInfo<Board> getPageInfo(String categoryMac) {
+        PageInfo<Board> pageInfo = new PageInfo<>(getBoardList(categoryMac));
+        return pageInfo;
     }
 
     @Override
     public User getOne(String idMac) {
-        return null;
+        return userDao.getOne(idMac);
     }
 
     @Override
     public boolean save(Board board) {
-        return false;
+        return 0 < boardDao.save(board);
     }
 
     @Override
     public Board getDetail(int numMac, String categoryMac) {
-        return null;
-    }
-
-    @Override
-    public Board getNoticeDetail(int num) {
-        return null;
+        return boardDao.getDetail(numMac, categoryMac);
     }
 
     @Override
     public boolean delete(int num) {
-        return false;
-    }
-
-    @Override
-    public boolean noticeDelete(int num) {
-        return false;
+        return 0 > boardDao.delete(num);
     }
 
     @Override
@@ -166,8 +157,4 @@ public class BoardService implements BoardServiceImpl_ {
         return null;
     }
 
-    @Override
-    public PageInfo<Board> getPageInfo(String categoryMac) {
-        return null;
-    }
 }
