@@ -48,7 +48,7 @@ public interface BoardService {
 
     // 게시글 검색
     public List<Board> getListByKeyword(String title, String category);
-    public List<Board> getListByNickName(String nickNameMac);
+    public List<Board> getListByNickName(String nickName, String category);
 //    public List<Board> getAdsListByKeyword(String titleMac);
 //    public List<Board> getAdsListByNickName(String nickNameMac);
 //    public List<Board> getNoticeListByKeyword(String titleMac);
@@ -76,7 +76,7 @@ public interface BoardService {
     public boolean filedelete(int num);
 
     // 파일 다운로드
-    public ResponseEntity<Resource> download (HttpServletRequest request, int FileNum) throws UnsupportedEncodingException;
+    public ResponseEntity<Resource> download (String contentType, Resource resource) throws UnsupportedEncodingException;
 
     // 게시판 카테고리에 따른 페이지네이션
     public PageInfo<Board> getPageInfo(String categoryMac);

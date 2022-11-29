@@ -1,14 +1,17 @@
 package com.mac.demo.controller;
 
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.mac.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,8 +30,11 @@ import com.mac.demo.serviceImpl.BoardService;
 @Controller
 public class BoardController {
 
-	@Autowired
-	public BoardService svc;
+	private final BoardService svc;
+	private final UserService userSvc;
+
+	ResourceLoader resourceLoader;
+
 
 	/** 게시판 메인화면 */
 	@GetMapping("/main")
@@ -185,26 +191,12 @@ public class BoardController {
 		PageHelper.startPage(page, 10);
 		
 		PageInfo<Board> pageInfo = null;
-		if(categoryMac.contentEquals("free")) {
-			if(category.equals("contents")) {
-				pageInfo = new PageInfo<>(svc.getListByKeyword(keyword, category));
-			} else {
-				pageInfo = new PageInfo<>(svc.getFreeListByNickName(keyword));
-			}
-		} else if(categoryMac.contentEquals("ads")) {
-			if(category.equals("contents")) {
-				pageInfo = new PageInfo<>(svc.getAdsListByKeyword(keyword));
-			} else {
-				pageInfo = new PageInfo<>(svc.getAdsListByNickName(keyword));
-			}
-		} else if(categoryMac.contentEquals("notice")) {
-			if(category.equals("contents")) {
-				pageInfo = new PageInfo<>(svc.getAdsListByKeyword(keyword));
-			} else {
-				pageInfo = new PageInfo<>(svc.getAdsListByNickName(keyword));
-			}
+		if(category.equals("contents")) {
+			pageInfo = new PageInfo<>(svc.getListByKeyword(keyword, categoryMac));
+		} else {
+			pageInfo = new PageInfo<>(svc.getListByNickName(keyword, categoryMac));
 		}
-		
+
 		model.addAttribute("pageInfo",pageInfo);
 		model.addAttribute("page", page);
 		
@@ -246,7 +238,6 @@ public class BoardController {
 										   Model model,
 										   HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		System.out.println("삭제할 파일 No. : " + numMac);
 		map.put("filedeleted", svc.filedelete(numMac));
 		return map;
 	}
@@ -254,7 +245,16 @@ public class BoardController {
 	@GetMapping("/file/{filenum}")
 	@ResponseBody
 	public ResponseEntity<Resource> fileDownload(HttpServletRequest request,
-												 @PathVariable(name="filenum", required = false) int FileNum) throws Exception {
-		return svc.download(request, FileNum);
+												 @PathVariable(name="filenum", required = false) int file_Num) throws Exception {
+
+		/**
+		 * 파일명 디코딩 작업
+		 */
+		String fileName = svc.getFname(file_Num);
+		String originFilename = URLDecoder.decode(fileName, "UTF-8");
+
+		Resource resource = resourceLoader.getResource("WEB-INF/files/" + originFilename);
+		String contextType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+		return svc.download(contextType, resource);
 	}
 }

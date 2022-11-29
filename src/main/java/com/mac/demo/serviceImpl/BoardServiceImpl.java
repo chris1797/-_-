@@ -32,7 +32,7 @@ import com.mac.demo.model.User;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class BoardServiceImpl implements BoardService{
+public class BoardServiceImpl {
 
 	private final BoardMapper boardDao;
 	private final UserMapper userDao;

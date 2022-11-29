@@ -12,6 +12,8 @@ import com.mac.demo.serviceImpl.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +30,7 @@ public class BoardServiceImpl implements BoardService {
 
     private final BoardMapper boardDao;
     private final UserMapper userDao;
-    private final AttachMapper attDao;
+    private final AttachMapper attachDao;
     ResourceLoader resourceLoader;
 
     @Override
@@ -83,33 +85,13 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<Board> getListByKeyword(String titleMac, String category) {
-        return null;
+    public List<Board> getListByKeyword(String title, String category) {
+        return boardDao.getListByKeyword(title, category);
     }
 
     @Override
-    public List<Board> getListByNickName(String nickNameMac, String category) {
-        return null;
-    }
-
-    @Override
-    public List<Board> getAdsListByKeyword(String titleMac) {
-        return null;
-    }
-
-    @Override
-    public List<Board> getAdsListByNickName(String nickNameMac) {
-        return null;
-    }
-
-    @Override
-    public List<Board> getNoticeListByKeyword(String titleMac) {
-        return null;
-    }
-
-    @Override
-    public List<Board> getNoticeListByNickName(String nickNameMac) {
-        return null;
+    public List<Board> getListByNickName(String nickName, String category) {
+        return boardDao.getListByNickName(nickName, category);
     }
 
     @Override
@@ -134,22 +116,34 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public List<Attach> getFileList(int pcodeMac) {
-        return null;
+        return attachDao.getFileList(pcodeMac);
     }
 
     @Override
     public String getFname(int num) {
-        return null;
+        return attachDao.getFname(num);
     }
 
     @Override
     public boolean filedelete(int num) {
-        return false;
+        int removed = attachDao.filedelete(num);
+        return removed > 0;
     }
 
     @Override
-    public ResponseEntity<Resource> download(HttpServletRequest request, int FileNum) throws UnsupportedEncodingException {
-        return null;
+    public ResponseEntity<Resource> download(String contentType, Resource resource) throws UnsupportedEncodingException {
+        if (contentType == null) contentType = "application/octet-stream";
+
+        ResponseEntity<Resource> file =  ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + new String(resource.getFilename().getBytes("UTF-8"), "ISO-8859-1") + "\"")
+
+                // .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                // HttpHeaders.CONTENT_DISPOSITION는 http header를 조작하는 것, 화면에 띄우지 않고 첨부화면으로
+                // 넘어가게끔한다
+                // filename=\"" + resource.getFilename() + "\"" 는 http프로토콜의 문자열을 고대로 쓴 것
+                .body(resource);
+
+        return file;
     }
 
 }
