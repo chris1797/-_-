@@ -242,148 +242,139 @@ public class AdminController {
 
     //자유게시판 검색
     @PostMapping("/admin/freeSearch")
-    public String searchFree(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                             @RequestParam(name = "category", required = false) String category,
-                             @RequestParam(name = "keyword", required = false) String keyword,
-                             Model model) {
+    public ModelAndView searchFree(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                                   @RequestParam(name = "category", required = false) String category,
+                                   @RequestParam(name = "keyword", required = false) String keyword) {
+        ModelAndView mav = new ModelAndView("thymeleaf/mac/admin/allFreeBoard");
 
         PageHelper.startPage(page, 5);
-
-        PageInfo<Board> pageInfo = null;
+        PageInfo<Board> pageInfo;
         if (category.equals("contents")) {
             pageInfo = new PageInfo<>(svc.getFreeListByKeyword(keyword));
         } else {
             pageInfo = new PageInfo<>(svc.getFreeListByNickName(keyword));
         }
 
-        model.addAttribute("pageInfo", pageInfo);
+        mav.addObject("pageInfo", pageInfo);
 
-        return "thymeleaf/mac/admin/allFreeBoard";
+        return mav;
     }
 
     //광고게시판 검색
     @PostMapping("/admin/adsSearch")
-    public String searchAds(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                            @RequestParam(name = "category", required = false) String category,
-                            @RequestParam(name = "keyword", required = false) String keyword,
-                            Model model) {
+    public ModelAndView searchAds(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                                  @RequestParam(name = "category", required = false) String category,
+                                  @RequestParam(name = "keyword", required = false) String keyword) {
+
+        ModelAndView mav = new ModelAndView("thymeleaf/mac/admin/allAdsBoard");
 
         PageHelper.startPage(page, 5);
+        PageInfo<Board> pageInfo;
 
-        PageInfo<Board> pageInfo = null;
         if (category.equals("contents")) {
             pageInfo = new PageInfo<>(svc.getAdsListByKeyword(keyword));
         } else {
             pageInfo = new PageInfo<>(svc.getAdsListByNickName(keyword));
         }
 
-        model.addAttribute("pageInfo", pageInfo);
+        mav.addObject("pageInfo", pageInfo);
 
-        return "thymeleaf/mac/admin/allAdsBoard";
+        return mav;
     }
 
     //공지사항 검색
     @PostMapping("/admin/NoticeSearch")
-    public String searchNotice(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+    public ModelAndView searchNotice(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                                     @RequestParam(name = "keyword", required = false) String keyword) {
 
-                               @RequestParam(name = "keyword", required = false) String keyword,
-                               Model model) {
+        ModelAndView mav = new ModelAndView("thymeleaf/mac/admin/allNoticeBoard");
 
         PageHelper.startPage(page, 5);
+        PageInfo<Board> pageInfo = new PageInfo<>(svc.getNoticeListByKeyword(keyword));
 
-        PageInfo<Board> pageInfo = null;
+        mav.addObject("pageInfo", pageInfo);
 
-        pageInfo = new PageInfo<>(svc.getNoticeListByKeyword(keyword));
-
-
-        model.addAttribute("pageInfo", pageInfo);
-
-        return "thymeleaf/mac/admin/allNoticeBoard";
+        return mav;
     }
 
     //댓글 검색
     @PostMapping("/admin/commentSearch")
-    public String searchComment(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                @RequestParam(name = "category", required = false) String category,
-                                @RequestParam(name = "keyword", required = false) String keyword,
-                                Model model) {
+    public ModelAndView searchComment(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                                      @RequestParam(name = "category", required = false) String category,
+                                      @RequestParam(name = "keyword", required = false) String keyword) {
+        ModelAndView mav = new ModelAndView("thymeleaf/mac/admin/allComment");
 
         PageHelper.startPage(page, 5);
+        PageInfo<Comment> pageInfo;
 
-        PageInfo<Comment> pageInfo = null;
         if (category.equals("contents")) {
             pageInfo = new PageInfo<>(svc.getCommentListByKeyword(keyword));
         } else {
             pageInfo = new PageInfo<>(svc.getCommentListByNickName(keyword));
         }
 
-        model.addAttribute("pageInfo", pageInfo);
+        mav.addObject("pageInfo", pageInfo);
 
-        return "thymeleaf/mac/admin/allComment";
+        return mav;
     }
 
     //유저 검색
     @PostMapping("/admin/userSearch")
-    public String searchUser(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+    public ModelAndView searchUser(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
                              @RequestParam(name = "category", required = false) String category,
-                             @RequestParam(name = "keyword", required = false) String keyword,
-                             Model model) {
+                             @RequestParam(name = "keyword", required = false) String keyword) {
+        ModelAndView mav = new ModelAndView("thymeleaf/mac/admin/allUser");
 
         PageHelper.startPage(page, 5);
-
         PageInfo<User> pageInfo = null;
         if (category.equals("contents")) {
             pageInfo = new PageInfo<>(svc.getUserListByKeyword(keyword));
         }
-        ;
 
-        model.addAttribute("pageInfo", pageInfo);
+        mav.addObject("pageInfo", pageInfo);
 
-        return "thymeleaf/mac/admin/allUser";
+        return mav;
     }
 
 
     //공지사항 보드쪽 서비스
-
     @GetMapping("/board/notice/list")
-    public String getListByPage_notice(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                       Model model,
-                                       HttpSession session) {
+    public ModelAndView getListByPage_notice(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                                             HttpSession session) {
+
+        ModelAndView mav = new ModelAndView("thymeleaf/mac/board/notice_boardList");
 
         PageHelper.startPage(page, 10);
         PageInfo<Board> pageInfo = new PageInfo<>(svc.findAllNoticeBoard());
 
-        model.addAttribute("pageInfo", pageInfo);
-        model.addAttribute("page", page);
-        model.addAttribute("idMac", (String) session.getAttribute("idMac"));
+        mav.addObject("pageInfo", pageInfo);
+        mav.addObject("page", page);
+        mav.addObject("idMac", (String) session.getAttribute("idMac"));
 
-        return "thymeleaf/mac/board/notice_boardList";
+        return mav;
     }
 
 
     //  게시글 보기
     @GetMapping("/board/notice/detail/{num}")
-    public String getDetail(@PathVariable("num") int num,
+    public ModelAndView getDetail(@PathVariable("num") int num,
+                                  @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                                  HttpSession session) {
 
-                            @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                            Model model,
-                            HttpSession session) {
+        ModelAndView mav = new ModelAndView("thymeleaf/mac/board/notice_board_detail");
 
-        String idMac = null;
-        idMac = (String) session.getAttribute("idMac");
-        model.addAttribute("idMac", idMac);
-        model.addAttribute("board", svc.getNoticeDetail(num));
-        model.addAttribute("filelist", svc.getNoticeFileList(num));
-        model.addAttribute("fileindex", svc.getNoticeFileList(num).size());
+        // session에 저장된 user id
+        String idMac = (String) session.getAttribute("idMac");
 
+        mav.addObject("idMac", idMac);
+        mav.addObject("board", svc.getNoticeDetail(num));
+        mav.addObject("filelist", svc.getNoticeFileList(num));
+        mav.addObject("fileindex", svc.getNoticeFileList(num).size());
 
-        // 댓글 삭제를 위한 idMac체크
-
-        return "thymeleaf/mac/board/notice_board_detail";
+        return mav;
     }
 
-    @GetMapping("board/noticeFile/download/{filenum}")
-    @ResponseBody
+    @GetMapping("/board/noticeFile/download/{filenum}")
     public ResponseEntity<Resource> noticeDownload(HttpServletRequest request,
                                                    @PathVariable(name = "filenum", required = false) int FileNum) throws Exception {
 
@@ -391,21 +382,22 @@ public class AdminController {
     }
 
     @GetMapping("/board/notice/search")
-    public String getListByTitle_Notice(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+    public ModelAndView getListByTitle_Notice(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
                                         @RequestParam(name = "keyword", required = false) String keyword,
                                         Model model) {
+        ModelAndView mav = new ModelAndView("thymeleaf/mac/board/notice_boardList");
 
         PageHelper.startPage(page, 10);
-
-
         PageInfo<Board> pageInfo = null;
+        try {
+            pageInfo = new PageInfo<>(svc.getNoticeListByKeyword(keyword));;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        pageInfo = new PageInfo<>(svc.getNoticeListByKeyword(keyword));
+        mav.addObject("pageInfo", pageInfo);
+        mav.addObject("page", page);
 
-
-        model.addAttribute("pageInfo", pageInfo);
-        model.addAttribute("page", page);
-
-        return "thymeleaf/mac/board/notice_boardList";
+        return mav;
     }
 }
