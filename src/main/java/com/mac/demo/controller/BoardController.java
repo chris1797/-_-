@@ -42,7 +42,7 @@ public class BoardController {
 		return "thymeleaf/mac/board/board_main";
 	}
 	
-//======================================== 게시판 ========================================
+//======================================== 게시판 =======================================
 	/** 신규 게시글 작성페이지로 이동 */
 	@GetMapping("/{categoryMac}/writingPage")
 	public String insertPage(Model model,
